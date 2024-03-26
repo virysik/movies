@@ -1,12 +1,6 @@
 .main {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
   padding: 6rem;
   min-height: 100vh;
-  font-size: 50px;
-  letter-spacing: 0.9rem;
   color: aliceblue;
   background-image: linear-gradient(
     to bottom right,
@@ -14,4 +8,13 @@
     #4958ab 30%,
     #91ced8 100%
   );
+}
+.main h1 {
+  margin-bottom: 3rem;
+  font-size: 50px;
+  letter-spacing: 0.9rem;
+}
+.main p {
+  font-size: 18px;
+  letter-spacing: 0.1rem;
 }
