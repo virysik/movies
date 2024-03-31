@@ -3,6 +3,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { fetchPopularMovies } from "@/app/lib/data";
+import { Box } from "@mui/material";
 
 export default function List() {
   // This useQuery could just as well happen in some deeper
@@ -20,13 +21,12 @@ export default function List() {
   // });
 
   return (
-    <div
-      style={{
-        background:
-          "radial-gradient(circle, rgba(174,238,199,1) 48%, rgba(161,168,161,0.13001264450867056) 100%)",
+    <Box
+      sx={{
+        backgroundColor: "info.light",
+        color: "info.contrastText",
       }}
     >
-     
       {data
         ? data.results.map((movie) => (
             <ul key={movie.id} style={{ borderBottom: "1px solid black" }}>
@@ -37,6 +37,6 @@ export default function List() {
             </ul>
           ))
         : null}
-    </div>
+    </Box>
   );
 }

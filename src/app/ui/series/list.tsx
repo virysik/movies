@@ -3,6 +3,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { fetchPopularSeries } from "@/app/lib/data";
+import { Box } from "@mui/material";
 
 export default function List() {
   // This useQuery could just as well happen in some deeper
@@ -20,10 +21,10 @@ export default function List() {
   // });
 
   return (
-    <div
-      style={{
-        background:
-          "radial-gradient(circle, rgba(228,124,105,1) 48%, rgba(161,168,161,0.13001264450867056) 100%)",
+    <Box
+      sx={{
+        backgroundColor: "secondary.light",
+        color: "secondary.contrastText",
       }}
     >
       {data
@@ -36,6 +37,6 @@ export default function List() {
             </ul>
           ))
         : null}
-    </div>
+    </Box>
   );
 }
