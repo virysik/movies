@@ -17,7 +17,10 @@ export default async function Page() {
 
   return (
     <main>
-      <h1 className={`${lusitana.className}`} style={{ marginBottom: "2rem" }}>
+      <h1
+        className={`${lusitana.className}`}
+        style={{ marginTop: "2rem", marginBottom: "2rem" }}
+      >
         Series:
       </h1>
       <HydrationBoundary state={dehydrate(queryClient)}>
