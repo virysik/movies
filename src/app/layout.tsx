@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
-import { ThemeProvider } from "@mui/material/styles";
-import theme from "@/theme";
+// import { ThemeProvider } from "@mui/material/styles";
+// import theme from "@/theme";
 import { inter } from "@/app/ui/fonts";
 import Providers from "@/app/providers";
 import { Wrapper } from "@/app/ui/home";
 import Header from "@/app/ui/header";
 import Footer from "@/app/ui/footer";
 import { Container } from "@/app/ui/home";
+import ThemeProvider from "@/theme";
 
 export const metadata: Metadata = {
   title: "Movies",
@@ -28,7 +29,7 @@ export default function RootLayout({
       >
         <Providers>
           <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-            <ThemeProvider theme={theme}>
+            <ThemeProvider>
               <Wrapper>
                 <Header />
                 <Container>{children}</Container>

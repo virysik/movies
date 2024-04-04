@@ -6,7 +6,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import { fetchPopularMovies } from "@/app/lib/data";
-
+import { Box } from "@mui/material";
 export default async function Page() {
   const queryClient = new QueryClient();
 
@@ -16,16 +16,48 @@ export default async function Page() {
   });
 
   return (
-    <main>
+    <Box component="main" sx={{ my: 2, outline: "1px solid red" }}>
       <h1
         className={`${lusitana.className}`}
-        style={{ marginTop: "2rem", marginBottom: "2rem" }}
+        // style={{ marginTop: "2rem", marginBottom: "2rem" }}
       >
         Movies:
       </h1>
+      <Box
+        sx={{
+          width: 100,
+          height: 100,
+          bgcolor: "primary.main",
+          color: "primary.contrastText",
+        }}
+      >
+        primary.main
+      </Box>
+      <Box
+        sx={{
+          width: 100,
+          height: 100,
+          bgcolor: "primary.light",
+          color: "primary.contrastText",
+        }}
+      >
+        primary.light
+      </Box>
+
+      <Box
+        sx={{
+          width: 100,
+          height: 100,
+          bgcolor: "primary.dark",
+          color: "primary.contrastText",
+        }}
+      >
+        primary.dark
+      </Box>
+
       <HydrationBoundary state={dehydrate(queryClient)}>
         <List />
       </HydrationBoundary>
-    </main>
+    </Box>
   );
 }

@@ -38,6 +38,8 @@ export const Container = styled(({ ...props }: ContainerProps) => (
 export const HeaderAppBar = styled(({ ...props }: AppBarProps) => (
   <AppBar {...props} position="sticky" />
 ))(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
+  color: theme.palette.primary.contrastText,
   alignItems: "center",
 }));
 
