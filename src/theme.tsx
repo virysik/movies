@@ -16,12 +16,12 @@ import {
   responsiveFontSizes,
   ThemeProvider as MuiThemeProvider,
   useTheme,
+  ThemeOptions,
 } from "@mui/material/styles";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import { deepmerge } from "@mui/utils";
 import { Roboto, Lusitana, Montserrat, Open_Sans } from "next/font/google";
-import { green, purple } from "@mui/material/colors";
 
 export function Toggler() {
   const theme = useTheme();
@@ -84,30 +84,69 @@ const primaryMain = alpha(primaryBase, 0.7);
 const primaryDarkBase = "#fff";
 const primaryDark = alpha(primaryDarkBase, 0.7);
 
-const getDesignTokens = (mode: PaletteMode) => ({
+const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
   palette: {
+    // contrastThreshold: 4.5,
+
     mode,
     ...(mode === "light"
       ? {
-          primary: {
-            main: "#f50057",
-            // main: primaryMain,
-            // light: alpha(primaryBase, 0.5),
-            // dark: alpha(primaryBase, 0.9),
-            // contrastText:
-            //   getContrastRatio(primaryMain, "#fff") > 4.5 ? "#fff" : "#111",
+          background: {
+            default: "#fff",
+            paper: "#fff",
           },
+          text: {
+            primary: "rgba(0, 0, 0, 0.87)",
+            secondary: "rgba(0, 0, 0, 0.6)",
+            disabled: "rgba(0, 0, 0, 0.38)",
+          },
+          divider: "rgba(0, 0, 0, 0.12)",
+          primary: {
+            main: "#90caf9",
+          },
+          secondary: {
+            main: "#ce93d8",
+          },
+          error: {
+            main: "#d32f2f",
+          },
+          warning: {
+            main: "#ed6c02",
+          },
+          info: {
+            main: "#0288d1",
+          },
+          success: { main: "#2e7d32" },
         }
       : {
-          primary: {
-            main: "#3f51b5",
-            // main: primaryDark,
-            // light: alpha(primaryDarkBase, 0.5),
-            // dark: alpha(primaryDarkBase, 0.9),
-            // contrastText:
-            //   getContrastRatio(primaryDark, "#000") > 4.5 ? "#000" : "#EEEEEE",
+          background: {
+            default: "#121212",
+            paper: "#121212",
           },
+          text: {
+            primary: "#fff",
+            secondary: "rgba(255, 255, 255, 0.7)",
+            disabled: "rgba(255, 255, 255, 0.5)",
+          },
+          divider: "rgba(255, 255, 255, 0.12)",
+          primary: {
+            main: "#90caf9",
+          },
+          secondary: {
+            main: "#ce93d8",
+          },
+          error: {
+            main: "#f44336",
+          },
+          warning: {
+            main: "#ffa726",
+          },
+          info: { main: "#29b6f6" },
+          success: { main: "#66bb6a" },
         }),
+  },
+  shape: {
+    borderRadius: 8,
   },
 });
 
@@ -131,18 +170,15 @@ const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }),
     []
   );
-  const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
-  const theme2 = useMemo(
+  const theme = useMemo(
     () => createTheme(deepmerge(getDesignTokens(mode), getComponents)),
     [mode]
   );
 
-  // const theme1 = createTheme(deepmerge(options1, options2));
-
-  //   const responsiveTheme = responsiveFontSizes(theme);
+  const responsiveTheme = responsiveFontSizes(theme);
   return (
     <ColorModeContext.Provider value={colorMode}>
-      <MuiThemeProvider theme={theme2}>{children}</MuiThemeProvider>
+      <MuiThemeProvider theme={responsiveTheme}>{children}</MuiThemeProvider>
     </ColorModeContext.Provider>
   );
 };
