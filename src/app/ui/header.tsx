@@ -1,23 +1,22 @@
-import { HeaderToolbar, HideOnMobile } from "@/app/ui/home";
+import { HeaderAppBar, HeaderToolbar, HideOnMobile } from "@/app/ui/home";
 import NavLinks from "@/app/ui/nav-links";
 import { Toggler } from "@/theme";
 import Link from "next/link";
 import LiveTvIcon from "@mui/icons-material/LiveTv";
-import { AppBar } from "@mui/material";
 
 function Header() {
   return (
-    <AppBar position="sticky">
+    <HeaderAppBar>
       <HeaderToolbar>
         <HideOnMobile>
           <Link href="/" style={{ padding: "8px" }}>
-            <LiveTvIcon sx={{ color: "text.primary" }} />
+            <LiveTvIcon sx={{ color: "info.dark" }} />
           </Link>
         </HideOnMobile>
         <NavLinks />
         <Toggler />
       </HeaderToolbar>
-    </AppBar>
+    </HeaderAppBar>
   );
 }
 export default Header;

@@ -76,6 +76,15 @@ const getComponents = {
   typography: {
     fontFamily: openSans.style.fontFamily,
   },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 420,
+      md: 768,
+      lg: 1024,
+      xl: 1536,
+    },
+  },
 };
 
 const primaryBase = "#000";
@@ -146,7 +155,7 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
         }),
   },
   shape: {
-    borderRadius: 8,
+    borderRadius: 6,
   },
 });
 

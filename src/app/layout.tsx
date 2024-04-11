@@ -25,15 +25,15 @@ export default function RootLayout({
         suppressHydrationWarning={true}
       >
         <Providers>
-          <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-            <ThemeProvider>
-              <Container>
-                <Header />
-                {children}
-                <Footer />
-              </Container>
-            </ThemeProvider>
-          </AppRouterCacheProvider>
+          {/* <AppRouterCacheProvider options={{}}> */}
+          <ThemeProvider>
+            <Container>
+              <Header />
+              {children}
+              <Footer />
+            </Container>
+          </ThemeProvider>
+          {/* </AppRouterCacheProvider> */}
         </Providers>
       </body>
     </html>

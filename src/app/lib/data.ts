@@ -1,42 +1,23 @@
 import { unstable_noStore as noStore } from "next/cache";
 import axios, { AxiosResponse } from "axios";
-import { PopularMovies, PopularSeries } from "@/app/lib/definitions";
+import {
+  Configuration,
+  PopularMovies,
+  PopularSeries,
+} from "@/app/lib/definitions";
 
 const BASE_URL = process.env.BASE_URL;
 const AUTH_TOKEN = process.env.AUTH_TOKEN;
 axios.defaults.baseURL = BASE_URL;
 axios.defaults.headers.common["Authorization"] = `Bearer ${AUTH_TOKEN}`;
 
-// const options = {
-//   method: "GET",
-//   headers: {
-//     accept: "application/json",
-//     Authorization: `Bearer ${process.env.API_KEY}`,
-//   },
-// };
-
-// fetch(`https://api.themoviedb.org/3/movie/11?api_key=${API_KEY}`, options)
-//   .then((response) => response.json())
-//   .then((response) => console.log("RESPONSE111", response))
-//   .catch((err) => console.error(err));
-
-// const options2 = {
-//   method: "GET",
-//   headers: {
-//     accept: "application/json",
-//     Authorization: `Bearer ${Bearer}`,
-//   },
-// };
-
 export async function fetchConfig() {
   noStore();
 
-  try {
-    const { data } = await axios.get("configuration");
-    return data;
-  } catch (error) {
-    console.log("error", error);
-  }
+  const { data }: AxiosResponse<Configuration> = await axios.get(
+    "configuration"
+  );
+  return data;
 }
 
 export async function fetchPopularMovies() {
