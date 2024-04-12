@@ -51,11 +51,11 @@ const MovieImg: FC<{ movie: PopularMovie }> = ({ movie }) => {
         style={{
           width: "100%",
         }}
-        srcSet={`${config?.images.base_url}${config?.images.backdrop_sizes[0]}${movie.backdrop_path} 300w,
-        ${config?.images.base_url}${config?.images.backdrop_sizes[1]}${movie.backdrop_path} 780w,
-       ${config?.images.base_url}${config?.images.backdrop_sizes[2]}${movie.backdrop_path} 1280w`}
+        srcSet={`${config?.images.secure_base_url}${config?.images.backdrop_sizes[0]}${movie.backdrop_path} 300w,
+        ${config?.images.secure_base_url}${config?.images.backdrop_sizes[1]}${movie.backdrop_path} 780w,
+       ${config?.images.secure_base_url}${config?.images.backdrop_sizes[2]}${movie.backdrop_path} 1280w`}
         sizes="(min-width: 768px) calc((100% - 32px*3)/4), (min-width: 420px) calc((100% - 24px)/2), 100vw"
-        src={`${config?.images.base_url}${config?.images.backdrop_sizes[3]}${movie.backdrop_path}`}
+        src={`${config?.images.secure_base_url}${config?.images.backdrop_sizes[3]}${movie.backdrop_path}`}
         alt={movie.title}
         loading="lazy"
       />
