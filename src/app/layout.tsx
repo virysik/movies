@@ -5,7 +5,7 @@ import { inter } from "@/app/ui/fonts";
 import Providers from "@/app/providers";
 import Header from "@/app/ui/header";
 import Footer from "@/app/ui/footer";
-import { Container } from "@/app/ui/home";
+import { BackgroundWrapper, Container } from "@/app/ui/home";
 import ThemeProvider from "@/theme";
 
 export const metadata: Metadata = {
@@ -27,11 +27,13 @@ export default function RootLayout({
         <Providers>
           {/* <AppRouterCacheProvider options={{}}> */}
           <ThemeProvider>
-            <Container>
-              <Header />
-              {children}
-              <Footer />
-            </Container>
+            <BackgroundWrapper>
+              <Container>
+                <Header />
+                {children}
+                <Footer />
+              </Container>
+            </BackgroundWrapper>
           </ThemeProvider>
           {/* </AppRouterCacheProvider> */}
         </Providers>

@@ -12,14 +12,19 @@ import {
   TypographyProps,
 } from "@mui/material";
 
+export const BackgroundWrapper = styled(Box)(({ theme }) => ({
+  width: "100%",
+  height: "100%",
+  backgroundColor: theme.palette.background.default,
+}));
+
 export const Container = styled(({ ...props }: ContainerProps) => (
   <MuiContainer {...props} />
 ))(({ theme }) => ({
-  minHeight: "100vh",
+  minHeight: "100%",
   display: "grid",
   gridTemplate: "minmax(54px, auto) 1fr minmax(64px, auto) / 1fr",
   gap: theme.spacing(6),
-  backgroundColor: theme.palette.background.default,
   "&.MuiContainer-root": {
     maxWidth: "1206px",
   },

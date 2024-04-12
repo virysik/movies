@@ -87,7 +87,6 @@ export default function List() {
             href="/"
             style={{
               width: "100%",
-              display: "block",
             }}
           >
             <MovieImg movie={movie} />
