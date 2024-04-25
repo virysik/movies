@@ -6,7 +6,7 @@ import Providers from "@/app/providers";
 import Header from "@/app/ui/header";
 import Footer from "@/app/ui/footer";
 import { BackgroundWrapper, Container } from "@/app/ui/home";
-import ThemeProvider from "@/theme";
+import ThemeProvider from "@/app/theme";
 
 export const metadata: Metadata = {
   title: "Movies",

@@ -22,7 +22,9 @@ export default function NavLinks() {
             href={link.href}
             style={{
               color:
-                pathname === link.href ? theme.palette.text.primary : "inherit",
+                pathname === link.href
+                  ? theme.palette.secondary.light
+                  : theme.palette.primary.contrastText,
             }}
           >
             <HeaderLink>{link.name}</HeaderLink>

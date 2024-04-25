@@ -87,8 +87,9 @@ const getComponents = {
   },
 };
 
-const primaryBase = "#000";
+const primaryBase = "#701518";
 const primaryMain = alpha(primaryBase, 0.7);
+const primaryLight = alpha(primaryBase, 0.3);
 
 const primaryDarkBase = "#fff";
 const primaryDark = alpha(primaryDarkBase, 0.7);
@@ -111,10 +112,14 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
           },
           divider: "rgba(0, 0, 0, 0.12)",
           primary: {
-            main: "#90caf9",
+            main: "#9d3c2b",
+            light: "#dc5a41",
+            dark: "#701518",
           },
           secondary: {
-            main: "#ce93d8",
+            main: "#31acae",
+            light: "#85cfd2",
+            dark: "#13534e",
           },
           error: {
             main: "#d32f2f",
@@ -133,16 +138,20 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
             paper: "#121212",
           },
           text: {
-            primary: "#fff",
+            primary: "rgba(255, 255, 255, 0.6)",
             secondary: "rgba(255, 255, 255, 0.7)",
             disabled: "rgba(255, 255, 255, 0.5)",
           },
           divider: "rgba(255, 255, 255, 0.12)",
           primary: {
-            main: "#90caf9",
+            main: "#664642",
+            light: "#ada2a0",
+            dark: "#2d1b1c",
           },
           secondary: {
-            main: "#ce93d8",
+            main: "#517776",
+            light: "#a7bbb9",
+            dark: "#1b2d2c",
           },
           error: {
             main: "#f44336",

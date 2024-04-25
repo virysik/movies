@@ -4,7 +4,11 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { fetchPopularMovies, fetchConfig } from "@/app/lib/data";
+import {
+  fetchPopularMovies,
+  fetchConfig,
+  fetchMovieById,
+} from "@/app/lib/data";
 import { Box } from "@mui/material";
 
 export default async function Page() {
@@ -13,6 +17,17 @@ export default async function Page() {
   await queryClient.prefetchQuery({
     queryKey: ["popular movies"],
     queryFn: fetchPopularMovies,
+
+    //   queryFn: async () => {
+    //     const movies = await fetchPopularMovies();
+    //     for (const movie of movies.results) {
+    //       queryClient.prefetchQuery({
+    //         queryKey: ["movie by", movie.id],
+    //         queryFn: () => fetchMovieById(String(movie.id)),
+    //       });
+    //     }
+    //     return movies;
+    //   },
   });
   await queryClient.prefetchQuery({
     queryKey: ["config"],

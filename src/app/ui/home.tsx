@@ -34,7 +34,6 @@ export const HeaderAppBar = styled(({ ...props }: AppBarProps) => (
   <AppBar {...props} position="sticky" />
 ))(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
-  color: theme.palette.info.dark,
   borderRadius: "0px 0px 6px 6px",
 }));
 
@@ -53,16 +52,17 @@ export const HeaderLink = styled(({ ...props }: TypographyProps) => (
   },
 }));
 
-export const HeaderToolbar = styled(Toolbar)({
+export const HeaderToolbar = styled(Toolbar)(({ theme }) => ({
   justifyContent: "space-between",
   gap: "10px",
-});
+  color: theme.palette.primary.contrastText,
+}));
 
 export const FooterBox = styled(Box)(({ theme }) => ({
   padding: "20px",
   textAlign: "center",
   borderRadius: "6px 6px 0px 0px",
-  color: theme.palette.text.secondary,
+  color: theme.palette.primary.contrastText,
   backgroundColor: theme.palette.primary.main,
 }));
 
