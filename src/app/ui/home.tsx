@@ -14,14 +14,14 @@ import {
 
 export const BackgroundWrapper = styled(Box)(({ theme }) => ({
   width: "100%",
-  height: "100%",
+  minHeight: "100vh",
   backgroundColor: theme.palette.background.default,
 }));
 
 export const Container = styled(({ ...props }: ContainerProps) => (
   <MuiContainer {...props} />
 ))(({ theme }) => ({
-  minHeight: "100%",
+  minHeight: "100vh",
   display: "grid",
   gridTemplate: "minmax(54px, auto) 1fr minmax(64px, auto) / 1fr",
   gap: theme.spacing(6),

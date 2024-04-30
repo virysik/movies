@@ -1,18 +1,21 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { fetchPopularMovies, fetchConfig } from "@/app/lib/data";
 import {
   Box,
   ListItem as MuiListItem,
+  Pagination,
   styled,
   Typography,
-  useTheme,
 } from "@mui/material";
 import Link from "next/link";
-import React, { FC } from "react";
-import { PopularMovie } from "@/app/lib/definitions";
+import React from "react";
+import {
+  PopularMovie,
+  PopularMovies,
+  Configuration,
+} from "@/app/lib/definitions";
 import { CardList } from "@/app/ui/cardlist";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 const ListItem = styled(MuiListItem)(({ theme }) => ({
   "&:hover": {
@@ -30,12 +33,14 @@ const ListItem = styled(MuiListItem)(({ theme }) => ({
   },
 }));
 
-const CardImg: FC<{ movie: PopularMovie }> = ({ movie }) => {
-  const { data: config } = useQuery({
-    queryKey: ["config"],
-    queryFn: fetchConfig,
-  });
-  const theme = useTheme();
+function CardImg({
+  movie,
+  config,
+}: {
+  movie: PopularMovie;
+  config: Configuration;
+}) {
+  const { secure_base_url, poster_sizes } = config.images;
   return (
     <Box
       sx={{
@@ -47,49 +52,75 @@ const CardImg: FC<{ movie: PopularMovie }> = ({ movie }) => {
         style={{
           width: "100%",
         }}
-        srcSet={`${config?.images.secure_base_url}${config?.images.poster_sizes[2]}${movie.poster_path} 185w,
-        ${config?.images.secure_base_url}${config?.images.poster_sizes[3]}${movie.poster_path} 342w,
-        ${config?.images.secure_base_url}${config?.images.poster_sizes[4]}${movie.poster_path} 500w,
-         ${config?.images.secure_base_url}${config?.images.poster_sizes[5]}${movie.poster_path} 780w`}
+        srcSet={`${secure_base_url}${poster_sizes[2]}${movie.poster_path} 185w,
+        ${secure_base_url}${poster_sizes[3]}${movie.poster_path} 342w,
+        ${secure_base_url}${poster_sizes[4]}${movie.poster_path} 500w,
+         ${secure_base_url}${poster_sizes[5]}${movie.poster_path} 780w`}
         sizes="(min-width: 768px) calc((100% - 32px*3)/4), (min-width: 420px) calc((100% - 24px)/2), 100vw"
-        src={`${config?.images.secure_base_url}${config?.images.poster_sizes[6]}${movie.poster_path}`}
+        src={`${secure_base_url}${poster_sizes[6]}${movie.poster_path}`}
         alt={movie.title}
         loading="lazy"
       />
     </Box>
   );
-};
-export default function List() {
-  const { data } = useQuery({
-    queryKey: ["popular movies"],
-    queryFn: fetchPopularMovies,
-  });
+}
+export default function List({
+  movies,
+  config,
+}: {
+  movies: PopularMovies;
+  config: Configuration;
+}) {
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const pathname = usePathname();
+  const router = useRouter();
 
-  return data ? (
-    <CardList>
-      {data.results.map((movie) => (
-        <ListItem key={movie.id} disablePadding sx={{ alignItems: "flex-end" }}>
-          <Link
-            href={`/${Number(movie.id)}`}
-            style={{
-              width: "100%",
-            }}
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", value.toString());
+    router.push(`/${pathname}?${params.toString()}`);
+  };
+
+  return movies ? (
+    <>
+      <CardList>
+        {movies.results.map((movie) => (
+          <ListItem
+            key={movie.id}
+            disablePadding
+            sx={{ alignItems: "flex-end" }}
           >
-            <CardImg movie={movie} />
-            <Typography
-              component={"h3"}
-              sx={{
-                pt: "4px",
-                // bgcolor: "primary.light",
-                color: "text.primary",
+            <Link
+              href={`/${Number(movie.id)}`}
+              style={{
+                width: "100%",
               }}
-              noWrap
             >
-              {movie.title}
-            </Typography>
-          </Link>
-        </ListItem>
-      ))}
-    </CardList>
+              <CardImg movie={movie} config={config} />
+              <Typography
+                component={"h3"}
+                sx={{
+                  pt: "4px",
+                  color: "text.primary",
+                }}
+                noWrap
+              >
+                {movie.title}
+              </Typography>
+            </Link>
+          </ListItem>
+        ))}
+      </CardList>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Pagination
+          variant="outlined"
+          shape="rounded"
+          count={movies.total_pages}
+          page={currentPage}
+          onChange={handleChange}
+        />
+      </Box>
+    </>
   ) : null;
 }

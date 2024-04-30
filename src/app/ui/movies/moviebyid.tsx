@@ -1,34 +1,54 @@
-import { Box, Button, Link as MuiLink, Stack, Typography } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
-import { notFound } from "next/navigation";
-import {
-  fetchPopularMovies,
-  fetchConfig,
-  fetchMovieById,
-} from "@/app/lib/data";
-import Link from "next/link";
+"use client";
 
-export default async function MovieById({ id }: { id: string }) {
-  const data = await fetchMovieById(id);
-  const config = await fetchConfig();
-  if (!data) {
-    notFound();
-  }
+import { Box, Link as MuiLink, Stack, Typography } from "@mui/material";
+import Link from "next/link";
+import { Configuration, Movie } from "@/app/lib/definitions";
+import { useRouter } from "next/navigation";
+
+const MediaGridStyles = {
+  display: "grid",
+  gridTemplate: { xs: "1fr/1fr", md: "1fr/ 1fr 1fr" },
+  gap: { xs: "24px", md: "32px" },
+};
+
+const MediaImgBoxStyles = {
+  borderRadius: "6px",
+  overflow: "hidden",
+};
+
+const ContentBoxStyles = {
+  color: "text.primary",
+  "& .back-link": {
+    display: "block",
+    maxWidth: "80px",
+    padding: "8px 20px",
+    marginLeft: { xs: "auto", md: "inherit" },
+    textTransform: "uppercase",
+    textDecoration: "none",
+    textAlign: "center",
+    backgroundColor: "primary.main",
+    color: "primary.contrastText",
+    borderRadius: "6px",
+    transition: "background-color 250ms ease-in-out",
+    "&:hover": {
+      bgcolor: "primary.dark",
+    },
+  },
+};
+
+export default function MovieById({
+  data,
+  config,
+}: {
+  data: Movie;
+  config: Configuration;
+}) {
+  const router = useRouter();
+
   return (
-    <Box
-      sx={{
-        display: "grid",
-        gridTemplate: { xs: "1fr/1fr", md: "1fr/ 1fr 1fr" },
-        gap: { xs: "24px", md: "32px" },
-      }}
-    >
+    <Box sx={MediaGridStyles}>
       <Box>
-        <Box
-          sx={{
-            borderRadius: "6px",
-            overflow: "hidden",
-          }}
-        >
+        <Box sx={MediaImgBoxStyles}>
           <img
             style={{
               width: "100%",
@@ -43,7 +63,7 @@ export default async function MovieById({ id }: { id: string }) {
           />
         </Box>
       </Box>
-      <Box sx={{ color: "text.primary" }}>
+      <Box sx={ContentBoxStyles}>
         <Stack spacing={1} mb={4}>
           <Typography component="h2" variant="h4">
             {data.title}
@@ -53,7 +73,6 @@ export default async function MovieById({ id }: { id: string }) {
           >
             {data.vote_average.toFixed(1)}
           </Typography>
-
           <Box>
             <Typography>
               Genres: {data.genres.map((e) => e.name).join(", ")}
@@ -71,30 +90,11 @@ export default async function MovieById({ id }: { id: string }) {
             </MuiLink>
           )}
           {data.tagline && <Typography>{data.tagline}</Typography>}
-
           <Typography>{data.overview}</Typography>
         </Stack>
-        <MuiLink
-          href="/"
-          sx={{
-            display: "block",
-            maxWidth: "80px",
-            p: "8px 20px",
-            ml: { xs: "auto", md: "inherit" },
-            textTransform: "uppercase",
-            textDecoration: "none",
-            textAlign: "center",
-            bgcolor: "primary.main",
-            color: "primary.contrastText",
-            borderRadius: "6px",
-            transition: "background-color 250ms ease-in-out",
-            "&:hover": {
-              bgcolor: "primary.dark",
-            },
-          }}
-        >
+        <Link href={"/"} className="back-link" onClick={() => router.back()}>
           Go Back
-        </MuiLink>
+        </Link>
       </Box>
     </Box>
   );

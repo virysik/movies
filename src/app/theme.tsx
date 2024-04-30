@@ -7,6 +7,7 @@ import React, {
   useContext,
   useState,
   useMemo,
+  useEffect,
 } from "react";
 import { IconButton, PaletteMode, useMediaQuery } from "@mui/material";
 import {
@@ -179,6 +180,13 @@ const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [mode, setMode] = useState<"light" | "dark">(
     prefersDarkMode ? "dark" : "light"
   );
+
+  useEffect(() => {
+    const selectedMode = prefersDarkMode ? "dark" : "light";
+    if (mode !== selectedMode) {
+      setMode(selectedMode);
+    }
+  }, [prefersDarkMode]);
 
   const colorMode: ToggleProps = useMemo(
     () => ({

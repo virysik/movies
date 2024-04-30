@@ -1,5 +1,5 @@
 import CardsSkeleton from "@/app/ui/skeletons";
-//loading to movie by id
+//loading to list
 export default function Loading() {
   return <CardsSkeleton />;
 }

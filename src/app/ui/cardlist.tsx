@@ -2,6 +2,7 @@
 import { List as MuiList, styled } from "@mui/material";
 
 export const CardList = styled(MuiList)(({ theme }) => ({
+  marginBottom: theme.spacing(6),
   padding: 0,
   display: "grid",
   gap: theme.spacing(4),

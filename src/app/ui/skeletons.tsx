@@ -1,19 +1,44 @@
 import { Box, Skeleton } from "@mui/material";
 
-/* change skeleton here */
-export function OneMovieSkeleton() {
+export function OneMediaImgSkeleton() {
+  return (
+    <Skeleton variant="rounded" width={"100%"} height={400} animation="wave" />
+  );
+}
+
+export function OneMediaHeaderSkeleton() {
   return (
     <Skeleton
-      variant="rectangular"
-      width={"100%"}
-      height={"200px"}
-      animation="wave"
+      variant="text"
       sx={{
-        maxWidth: { xs: "380px", sm: "346px", md: "264px" },
-        borderBottomLeftRadius: "6px",
-        borderBottomRightRadius: "6px",
+        fontSize: "30px",
       }}
     />
+  );
+}
+
+export function OneMediaTextSkeleton() {
+  return <Skeleton variant="text" />;
+}
+
+export function OneMediaCircleSkeleton() {
+  return <Skeleton variant="circular" width={40} height={40} />;
+}
+
+/* change skeleton here */
+export function OneMediaSkeleton() {
+  return (
+    <Box>
+      <OneMediaImgSkeleton />
+      <Box>
+        <OneMediaHeaderSkeleton />
+        <OneMediaCircleSkeleton />
+        <OneMediaTextSkeleton />
+        <OneMediaTextSkeleton />
+        <OneMediaTextSkeleton />
+        <OneMediaTextSkeleton />
+      </Box>
+    </Box>
   );
 }
 
@@ -25,7 +50,6 @@ export function TextSkeleton() {
       height={"28px"}
       animation="wave"
       sx={{
-        maxWidth: { xs: "380px", sm: "346px", md: "264px" },
         borderBottomLeftRadius: "6px",
         borderBottomRightRadius: "6px",
       }}
@@ -37,11 +61,10 @@ export function ImgSkeleton() {
     <Skeleton
       variant="rectangular"
       width={"100%"}
+      height={300}
       animation="wave"
       sx={{
         mb: "4px",
-        height: { xs: "580px", sm: "300px" },
-        maxWidth: { xs: "380px", sm: "346px", md: "264px" },
         borderTopLeftRadius: "6px",
         borderTopRightRadius: "6px",
       }}
