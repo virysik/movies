@@ -118,9 +118,9 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
             dark: "#701518",
           },
           secondary: {
-            main: "#31acae",
-            light: "#85cfd2",
-            dark: "#13534e",
+            main: "#fdd643",
+            light: "#ffeb9e",
+            dark: "#9d752b",
           },
           error: {
             main: "#d32f2f",
