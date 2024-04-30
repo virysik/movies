@@ -6,8 +6,8 @@ import { HeaderLink } from "@/app/ui/home";
 import { useTheme } from "@mui/material";
 
 const links = [
-  { name: "Popular movies", href: "/" },
-  { name: "Popular TV series", href: "/series" },
+  { name: "Movies", href: "/" },
+  { name: "TV series", href: "/series" },
 ];
 
 export default function NavLinks() {
@@ -23,8 +23,8 @@ export default function NavLinks() {
             style={{
               color:
                 pathname === link.href
-                  ? theme.palette.secondary.main
-                  : "inherit",
+                  ? theme.palette.secondary.light
+                  : theme.palette.primary.contrastText,
             }}
           >
             <HeaderLink>{link.name}</HeaderLink>

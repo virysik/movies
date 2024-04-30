@@ -1,42 +1,126 @@
-// app/posts/page.jsx
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { fetchPopularMovies } from "@/app/lib/data";
-import { Box } from "@mui/material";
+import {
+  Box,
+  ListItem as MuiListItem,
+  Pagination,
+  styled,
+  Typography,
+} from "@mui/material";
+import Link from "next/link";
+import React from "react";
+import {
+  PopularMovie,
+  PopularMovies,
+  Configuration,
+} from "@/app/lib/definitions";
+import { CardList } from "@/app/ui/cardlist";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
-export default function List() {
-  // This useQuery could just as well happen in some deeper
-  // child to <Posts>, data will be available immediately either way
-  const { data } = useQuery({
-    queryKey: ["popular movies"],
-    queryFn: fetchPopularMovies,
-  });
+const ListItem = styled(MuiListItem)(({ theme }) => ({
+  "&:hover": {
+    "& a": {
+      textDecoration: `underline`,
+      textDecorationColor: theme.palette.text.primary,
+    },
+    "& .MuiBox-root": {
+      color: theme.palette.info.light,
+    },
+  },
+  "& a:focus-visible": {
+    outline: `3px solid ${theme.palette.success.light}`,
+    borderRadius: "6px",
+  },
+}));
 
-  // This query was not prefetched on the server and will not start
-  // fetching until on the client, both patterns are fine to mix.
-  // const { data: commentsData } = useQuery({
-  //   queryKey: ["posts-comments"],
-  //   queryFn: getComments,
-  // });
-
+function CardImg({
+  movie,
+  config,
+}: {
+  movie: PopularMovie;
+  config: Configuration;
+}) {
+  const { secure_base_url, poster_sizes } = config.images;
   return (
     <Box
       sx={{
-        backgroundColor: "info.light",
-        color: "info.contrastText",
+        borderRadius: "6px",
+        overflow: "hidden",
       }}
     >
-      {data
-        ? data.results.map((movie) => (
-            <ul key={movie.id} style={{ borderBottom: "1px solid black" }}>
-              <li>
-                <h3>{movie.title}</h3>
-                <p>{movie.overview}</p>
-              </li>
-            </ul>
-          ))
-        : null}
+      <img
+        style={{
+          width: "100%",
+        }}
+        srcSet={`${secure_base_url}${poster_sizes[2]}${movie.poster_path} 185w,
+        ${secure_base_url}${poster_sizes[3]}${movie.poster_path} 342w,
+        ${secure_base_url}${poster_sizes[4]}${movie.poster_path} 500w,
+         ${secure_base_url}${poster_sizes[5]}${movie.poster_path} 780w`}
+        sizes="(min-width: 768px) calc((100% - 32px*3)/4), (min-width: 420px) calc((100% - 24px)/2), 100vw"
+        src={`${secure_base_url}${poster_sizes[6]}${movie.poster_path}`}
+        alt={movie.title}
+        loading="lazy"
+      />
     </Box>
   );
+}
+export default function List({
+  movies,
+  config,
+}: {
+  movies: PopularMovies;
+  config: Configuration;
+}) {
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", value.toString());
+    router.push(`/${pathname}?${params.toString()}`);
+  };
+
+  return movies ? (
+    <>
+      <CardList>
+        {movies.results.map((movie) => (
+          <ListItem
+            key={movie.id}
+            disablePadding
+            sx={{ alignItems: "flex-end" }}
+          >
+            <Link
+              href={`/${Number(movie.id)}`}
+              style={{
+                width: "100%",
+              }}
+            >
+              <CardImg movie={movie} config={config} />
+              <Typography
+                component={"h3"}
+                sx={{
+                  pt: "4px",
+                  color: "text.primary",
+                }}
+                noWrap
+              >
+                {movie.title}
+              </Typography>
+            </Link>
+          </ListItem>
+        ))}
+      </CardList>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Pagination
+          variant="outlined"
+          shape="rounded"
+          count={movies.total_pages}
+          page={currentPage}
+          onChange={handleChange}
+        />
+      </Box>
+    </>
+  ) : null;
 }
