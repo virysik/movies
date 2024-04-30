@@ -1,31 +1,21 @@
-import { lusitana } from "@/app/ui/fonts";
 import List from "@/app/ui/series/list";
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
-import { fetchPopularSeries } from "@/app/lib/data";
+import { Box } from "@mui/material";
+import { fetchConfig, fetchPopularSeries } from "@/app/lib/data";
 
-export default async function Page() {
-  const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery({
-    queryKey: ["popular series"],
-    queryFn: fetchPopularSeries,
-  });
+export default async function Page({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+    page?: number;
+  };
+}) {
+  const series = await fetchPopularSeries(searchParams?.page || 1);
+  const config = await fetchConfig();
 
   return (
-    <main>
-      <h1
-        className={`${lusitana.className}`}
-        style={{ marginTop: "2rem", marginBottom: "2rem" }}
-      >
-        Series:
-      </h1>
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <List />
-      </HydrationBoundary>
-    </main>
+    <Box component="main">
+      <List series={series} config={config} />
+    </Box>
   );
 }

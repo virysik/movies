@@ -5,6 +5,7 @@ import {
   Movie,
   PopularMovies,
   PopularSeries,
+  Series,
 } from "@/app/lib/definitions";
 
 const BASE_URL = process.env.BASE_URL;
@@ -27,20 +28,28 @@ export async function fetchConfig() {
 
 export async function fetchPopularMovies(page: number) {
   noStore();
-
-  const { data }: AxiosResponse<PopularMovies> = await axios.get(
-    `movie/popular?language=en-US&page=${page}`
-  );
-  return data;
+  try {
+    const { data }: AxiosResponse<PopularMovies> = await axios.get(
+      `movie/popular?language=en-US&page=${page}`
+    );
+    return data;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch movies");
+  }
 }
 
-export async function fetchPopularSeries() {
+export async function fetchPopularSeries(page: number) {
   noStore();
-
-  const { data }: AxiosResponse<PopularSeries> = await axios.get(
-    "tv/popular?language=en-US&page=1"
-  );
-  return data;
+  try {
+    const { data }: AxiosResponse<PopularSeries> = await axios.get(
+      `tv/popular?language=en-US&page=${page}`
+    );
+    return data;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch tv series");
+  }
 }
 
 export async function fetchMovieById(id: string) {
@@ -51,5 +60,16 @@ export async function fetchMovieById(id: string) {
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch movie");
+  }
+}
+
+export async function fetchSeriesById(id: string) {
+  noStore();
+  try {
+    const { data }: AxiosResponse<Series> = await axios.get(`tv/${id}`);
+    return data;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch series");
   }
 }

@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Box,
-  ListItem as MuiListItem,
-  Pagination,
-  styled,
-  Typography,
-} from "@mui/material";
+import { Box, Pagination, Typography } from "@mui/material";
 import Link from "next/link";
 import React from "react";
 import {
@@ -14,24 +8,8 @@ import {
   PopularMovies,
   Configuration,
 } from "@/app/lib/definitions";
-import { CardList } from "@/app/ui/cardlist";
+import { CardList, CardListItem } from "@/app/ui/cardlist";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
-
-const ListItem = styled(MuiListItem)(({ theme }) => ({
-  "&:hover": {
-    "& a": {
-      textDecoration: `underline`,
-      textDecorationColor: theme.palette.text.primary,
-    },
-    "& .MuiBox-root": {
-      color: theme.palette.info.light,
-    },
-  },
-  "& a:focus-visible": {
-    outline: `3px solid ${theme.palette.success.light}`,
-    borderRadius: "6px",
-  },
-}));
 
 function CardImg({
   movie,
@@ -41,6 +19,7 @@ function CardImg({
   config: Configuration;
 }) {
   const { secure_base_url, poster_sizes } = config.images;
+  const { poster_path, title } = movie;
   return (
     <Box
       sx={{
@@ -52,13 +31,13 @@ function CardImg({
         style={{
           width: "100%",
         }}
-        srcSet={`${secure_base_url}${poster_sizes[2]}${movie.poster_path} 185w,
-        ${secure_base_url}${poster_sizes[3]}${movie.poster_path} 342w,
-        ${secure_base_url}${poster_sizes[4]}${movie.poster_path} 500w,
-         ${secure_base_url}${poster_sizes[5]}${movie.poster_path} 780w`}
+        srcSet={`${secure_base_url}${poster_sizes[2]}${poster_path} 185w,
+        ${secure_base_url}${poster_sizes[3]}${poster_path} 342w,
+        ${secure_base_url}${poster_sizes[4]}${poster_path} 500w,
+         ${secure_base_url}${poster_sizes[5]}${poster_path} 780w`}
         sizes="(min-width: 768px) calc((100% - 32px*3)/4), (min-width: 420px) calc((100% - 24px)/2), 100vw"
-        src={`${secure_base_url}${poster_sizes[6]}${movie.poster_path}`}
-        alt={movie.title}
+        src={`${secure_base_url}${poster_sizes[6]}${poster_path}`}
+        alt={title}
         loading="lazy"
       />
     </Box>
@@ -76,7 +55,7 @@ export default function List({
   const pathname = usePathname();
   const router = useRouter();
 
-  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+  const handleChange = (_: React.ChangeEvent<unknown>, value: number) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", value.toString());
     router.push(`/${pathname}?${params.toString()}`);
@@ -86,7 +65,7 @@ export default function List({
     <>
       <CardList>
         {movies.results.map((movie) => (
-          <ListItem
+          <CardListItem
             key={movie.id}
             disablePadding
             sx={{ alignItems: "flex-end" }}
@@ -109,7 +88,7 @@ export default function List({
                 {movie.title}
               </Typography>
             </Link>
-          </ListItem>
+          </CardListItem>
         ))}
       </CardList>
       <Box sx={{ display: "flex", justifyContent: "center" }}>

@@ -2,7 +2,7 @@
 
 import { Box, Link as MuiLink, Stack, Typography } from "@mui/material";
 import Link from "next/link";
-import { Configuration, Movie } from "@/app/lib/definitions";
+import { Configuration, Series } from "@/app/lib/definitions";
 import { useRouter } from "next/navigation";
 import {
   MediaGridStyles,
@@ -14,12 +14,12 @@ export default function MovieById({
   data,
   config,
 }: {
-  data: Movie;
+  data: Series;
   config: Configuration;
 }) {
   const router = useRouter();
   const { secure_base_url, backdrop_sizes } = config.images;
-  const { backdrop_path, title } = data;
+  const { backdrop_path, name } = data;
 
   return (
     <Box sx={MediaGridStyles}>
@@ -34,7 +34,7 @@ export default function MovieById({
           ${secure_base_url}${backdrop_sizes[2]}${backdrop_path} 1280w`}
             sizes="(min-width: 768px) calc(100%/2), 100vw"
             src={`${secure_base_url}${backdrop_sizes[3]}${backdrop_path}`}
-            alt={title}
+            alt={name}
             loading="lazy"
           />
         </Box>
@@ -42,7 +42,7 @@ export default function MovieById({
       <Box sx={ContentBoxStyles}>
         <Stack spacing={1} mb={4}>
           <Typography component="h2" variant="h4">
-            {data.title}
+            {data.name}
           </Typography>
           <Typography
             sx={{ fontSize: "22px", fontWeight: 700, color: "primary.main" }}
@@ -53,9 +53,9 @@ export default function MovieById({
             <Typography>
               Genres: {data.genres.map((e) => e.name).join(", ")}
             </Typography>
-            <Typography>Release date: {data.release_date}</Typography>
-            <Typography>Runtime: {data.runtime}</Typography>
             <Typography>Country: {data.origin_country.join(", ")}</Typography>
+
+            <Typography>Seasons: {data.number_of_seasons}</Typography>
 
             <Typography>Vote count: {data.vote_count}</Typography>
             <Typography>Popularity: {data.popularity.toFixed()}</Typography>
@@ -66,9 +66,13 @@ export default function MovieById({
             </MuiLink>
           )}
           {data.tagline && <Typography>{data.tagline}</Typography>}
-          <Typography>{data.overview}</Typography>
+          {data.overview && <Typography>{data.overview}</Typography>}
         </Stack>
-        <Link href={"/"} className="back-link" onClick={() => router.back()}>
+        <Link
+          href={"/series"}
+          className="back-link"
+          onClick={() => router.back()}
+        >
           Go Back
         </Link>
       </Box>
